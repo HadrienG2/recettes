@@ -43,13 +43,12 @@ jobs:
       # ici du bash exécuté au sein d'une image Docker préparée par Sonny
       - name: Construction du site web
         run: |
-          - echo "LOL"
-          # # On déplace les recettes à l'endroit attendu par astro-chef
-          # - cp -r ./recettes $APP_DIR/recettes
-          # # On génère les pages HTML avec astro-chef
-          # - (cd $APP_DIR && yarn build)
-          # # On ramène ces pages à un endroit où le runner GitHub peut les voir
-          # - mv $APP_DIR/dist .
+          # On déplace les recettes à l'endroit attendu par astro-chef
+          cp -r ./recettes $APP_DIR/recettes
+          # On génère les pages HTML avec astro-chef
+          (cd $APP_DIR && yarn build)
+          # On ramène ces pages à un endroit où le runner GitHub peut les voir
+          mv $APP_DIR/dist .
 
       # Pour des raisons de sécurité, GitHub encouragent fortement à ne pas
       # donner directement la permission de mettre le site en ligne à un job
