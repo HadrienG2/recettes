@@ -30,7 +30,7 @@ jobs:
 
     # On utilise ici le générateur de site statique fourni par Sonny via un
     # conteneur Docker...
-    container: docker://gitlab-registry.in2p3.fr/sonny.lion/astro-chef:latest
+    container: docker://gitlab-registry.in2p3.fr/sonny.lion/astro-chef:1.1.2
     env:
       # ...avec une configuration adaptée pour GitHub Pages qui utilise des
       # URL du style https://hadrieng2.github.io/recettes/ et pas
