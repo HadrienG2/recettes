@@ -30,7 +30,7 @@ jobs:
 
     # On utilise ici le générateur de site statique fourni par Sonny via un
     # conteneur Docker...
-    container: docker://gitlab-registry.in2p3.fr/sonny.lion/astro-chef:1.1.1
+    container: docker://gitlab-registry.in2p3.fr/sonny.lion/astro-chef:latest
     env:
       # ...avec une configuration adaptée pour GitHub Pages qui utilise des
       # URL du style https://hadrieng2.github.io/recettes/ et pas
@@ -67,33 +67,11 @@ jobs:
       # - Un deuxième job (ici "deploy") récupère cet artefact et met le site en
       #   ligne. Il ne fait rien d'autre. Seul ce second job est doté des
       #   privilèges spéciaux permettant la mise en ligne d'un site.
-
-      # FIXME: Je ne peux pas utiliser upload-pages-artifact pour l'instant, cf
-      #        https://gitlab.in2p3.fr/sonny.lion/astro-chef/-/merge_requests/1
-      #
-      # - name: Generate and upload the artifact
-      #   # Documentation sur https://github.com/actions/upload-pages-artifact
-      #   uses: actions/upload-pages-artifact@v4
-      #   with:
-      #     path: dist/
-      #
-      # FIXME: ...du coup pour l'instant je contourne en réimplémentant cette
-      #        action avec le vocabulaire limité du tar de busybox
-      - name: Build an artifact archive
-        # Référence: https://github.com/actions/upload-pages-artifact/blob/7b1f4a764d45c48632c6b24a0339c27f5614fb0b/action.yml#L27
-        run: |
-          tar c  \
-              -h  \
-              -C dist  \
-              -vf "$RUNNER_TEMP/artifact.tar"  \
-              .
-      - name: Upload the artifact
-        uses: actions/upload-artifact@v5
+      - name: Generate and upload the artifact
+        # Documentation sur https://github.com/actions/upload-pages-artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: github-pages
-          path: ${{ runner.temp }}/artifact.tar
-          retention-days: 1
-          if-no-files-found: error
+          path: dist/
 
   # Ce job met en ligne les pages HTML
   deploy:
